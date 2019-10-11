@@ -16,13 +16,26 @@ class HighScores:
         self.title_text_render = fonts[3].render("High Scores", True, pygame.Color("#000000"))
         self.title_text_render_rect = self.title_text_render.get_rect(centerx=screen_data.screen_size[0] * 0.5,
                                                                       centery=64)
+
+        # -------------------------------------------------------------------------------------------------------------------
+        #  Challenge 1 - Basic sorting of python lists
+        # --------------------------------------------
+        #
+        #  Sort the 'self.characters' list by its characters 'score' variable to make the high score table rank
+        #  properly.
+        #  Enter your code right below this comment.
+        #
+        #  - Use the .sort() method on the list.
+        #  - Pass in - key=attrgetter('score') - to the sort function to sort by the characters score
+        #  - Set the sort direction to ascending or descending by passing in 'reverse=True' or 'reverse=False'
+        #    as a second parameter
+        # -------------------------------------------------------------------------------------------------------------------
         self.characters = characters
-        self.characters.sort(key=attrgetter('score'), reverse=True)
 
         self.character_score_entries = []
         character_index = 0
         for character in self.characters:
-            character_button = UIHighScoreEntry([362, 128+(character_index * 64), 300, 52],
+            character_button = UIHighScoreEntry([362, 128 + (character_index * 64), 300, 52],
                                                 character, fonts, character_index, self.portraits)
             self.character_score_entries.append(character_button)
             character_index += 1
@@ -33,7 +46,7 @@ class HighScores:
             self.back_button.handle_input_event(event)
             # if event.type == QUIT:
             # running = False
-        
+
         screen.blit(self.background_image, (0, 0))  # draw the background
         screen.blit(self.title_text_render, self.title_text_render_rect)
 
@@ -55,10 +68,10 @@ class HighScores:
             image = pygame.image.load(filename).convert()
         image_width, image_height = image.get_size()
         tile_table = []
-        for tile_x in range(0, int(image_width/width)):
+        for tile_x in range(0, int(image_width / width)):
             line = []
             tile_table.append(line)
-            for tile_y in range(0, int(image_height/height)):
-                rect = (tile_x*width, tile_y*height, width, height)
+            for tile_y in range(0, int(image_height / height)):
+                rect = (tile_x * width, tile_y * height, width, height)
                 line.append(image.subsurface(rect))
         return tile_table

@@ -12,7 +12,7 @@ from collision.drawable_collision_shapes import DrawableCollisionCircle
 # ------------------------------------------
 from game.bow_weapon import BowWeapon
 from game.sword_weapon import SwordWeapon
-from game.magic_weapon import MagicWeapon
+from magic_weapon import MagicWeapon
 
 
 class Scheme:

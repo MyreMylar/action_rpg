@@ -1,3 +1,7 @@
+# --------------------------------------------------------
+# Challenge 1 is in the high_scores python file &
+# Challenge 2 is in the magic_weapon python file
+# --------------------------------------------------------
 from collections import deque
 
 from game.player import *
@@ -10,7 +14,7 @@ from game.map_editor import *
 from game.character_select import *
 import game.tiled_level as tiled_level_code
 
-from game.high_scores import *
+from high_scores import *
 
 from collision.collision_grid import *
 
@@ -32,7 +36,7 @@ class ScreenData:
 def main():
     characters = []
     characters = character_code.reload_characters(characters)
-    
+
     pygame.init()
     pygame.key.set_repeat()
     x_screen_size = 1024
@@ -92,7 +96,7 @@ def main():
 
     character_select = CharacterSelect(fonts, screen_data, characters)
     view_high_score_menu = HighScores(fonts, screen_data, characters)
-    
+
     hud_rect = pygame.Rect(0,
                            screen_data.screen_size[1] - screen_data.hud_dimensions[1],
                            screen_data.hud_dimensions[0],
@@ -103,7 +107,7 @@ def main():
                                   screen_data.editor_hud_dimensions[0],
                                   screen_data.editor_hud_dimensions[1])
     editor = MapEditor(tiled_level, editor_hud_rect, fonts, collision_grid)
-    
+
     health_bar = HealthBar([screen_data.hud_dimensions[0] - (screen_data.hud_dimensions[0] * 0.20),
                             screen_data.screen_size[1] - (0.75 * screen_data.hud_dimensions[1])],
                            (screen_data.hud_dimensions[0] * 0.15), 16)
@@ -111,7 +115,7 @@ def main():
     mana_bar = ManaBar([screen_data.hud_dimensions[0] - (screen_data.hud_dimensions[0] * 0.20),
                         screen_data.screen_size[1] - (0.55 * screen_data.hud_dimensions[1])],
                        (screen_data.hud_dimensions[0] * 0.15), 16)
- 
+
     rifle_button = HUDButton([48,
                               screen_data.screen_size[1] - screen_data.hud_dimensions[1] + 48],
                              "bow_icon",
@@ -137,9 +141,9 @@ def main():
     player = None
 
     frame_rates = deque([])
-    clock = pygame.time.Clock()        
+    clock = pygame.time.Clock()
     running = True
-    
+
     is_main_menu = True
     is_editor = False
     is_character_select = False
@@ -156,7 +160,7 @@ def main():
 
     while running:
         frame_time = clock.tick(60)
-        time_delta = frame_time/1000.0
+        time_delta = frame_time / 1000.0
 
         if is_main_menu:
             is_main_menu_and_index = main_menu.run(screen, fonts, screen_data)
@@ -171,7 +175,7 @@ def main():
             elif is_main_menu_and_index[0] == 2:
                 is_main_menu = False
                 is_editor = True
-            
+
         elif is_character_select:
             results = character_select.run(screen)
             if results[0] == 1:  # back
@@ -210,7 +214,7 @@ def main():
                                  all_top_tile_sprites,
                                  editor_hud_rect,
                                  time_delta)
-            
+
         else:
             if restart_game:
                 restart_game = False
@@ -251,7 +255,7 @@ def main():
 
                 players.append(player)
                 tiled_level.reset_guards()
-                  
+
             elif is_game_over:
                 pass
             else:
@@ -260,7 +264,7 @@ def main():
             if player is not None and player.health <= 0:
                 is_game_over = True
                 win_message = "You have been defeated!"
-                
+
             if len(monsters) == 0 and not player.should_die:
                 player.check_and_save_high_score()
                 if player.has_new_high_score:
@@ -293,7 +297,7 @@ def main():
                 if player.should_die and player.has_new_high_score:
                     new_high_score = player.score
                     has_new_high_score = True
-                
+
             players[:] = [player for player in players if not player.should_die]
 
             for monster in monsters:
@@ -310,7 +314,7 @@ def main():
             for collided_shape in collision_grid.shapes_collided_this_frame:
                 if collided_shape.owner is not None:
                     collided_shape.owner.react_to_collision()
-            
+
             screen.blit(background, (0, 0))  # draw the background
 
             all_tile_sprites.draw(screen)
@@ -367,12 +371,12 @@ def main():
 
             if time_delta > 0.0:
                 if len(frame_rates) < 20:
-                    frame_rates.append(1.0/time_delta)
+                    frame_rates.append(1.0 / time_delta)
                 else:
                     frame_rates.popleft()
-                    frame_rates.append(1.0/time_delta)
-                    
-                fps = sum(frame_rates)/len(frame_rates)
+                    frame_rates.append(1.0 / time_delta)
+
+                fps = sum(frame_rates) / len(frame_rates)
                 fps_string = "FPS: " + "{:.2f}".format(fps)
                 # noinspection PyArgumentList
                 fps_test_render = fonts[1].render(fps_string, True, pygame.Color(255, 255, 255))
@@ -382,23 +386,23 @@ def main():
             if is_game_over:
                 # noinspection PyArgumentList
                 win_message_text_render = large_font.render(win_message, True, pygame.Color(255, 255, 255))
-                win_message_text_render_rect = win_message_text_render.get_rect(centerx=x_screen_size/2,
-                                                                                centery=(y_screen_size/2)-128)
+                win_message_text_render_rect = win_message_text_render.get_rect(centerx=x_screen_size / 2,
+                                                                                centery=(y_screen_size / 2) - 128)
 
                 if has_new_high_score:
                     # noinspection PyArgumentList
                     high_score_text_render = font.render("New High Score: " + str(new_high_score),
                                                          True, pygame.Color(255, 200, 150))
-                    high_score_text_render_rect = high_score_text_render.get_rect(centerx=x_screen_size/2,
-                                                                                  centery=(y_screen_size/2)-76)
+                    high_score_text_render_rect = high_score_text_render.get_rect(centerx=x_screen_size / 2,
+                                                                                  centery=(y_screen_size / 2) - 76)
                     screen.blit(high_score_text_render, high_score_text_render_rect)
                 # noinspection PyArgumentList
                 play_again_text_render = font.render("Play Again? Press 'Y' to restart",
                                                      True, pygame.Color(255, 255, 255))
-                play_again_text_render_rect = play_again_text_render.get_rect(centerx=x_screen_size/2,
-                                                                              centery=(y_screen_size/2)-40)
+                play_again_text_render_rect = play_again_text_render.get_rect(centerx=x_screen_size / 2,
+                                                                              centery=(y_screen_size / 2) - 40)
                 screen.blit(win_message_text_render, win_message_text_render_rect)
-                
+
                 screen.blit(play_again_text_render, play_again_text_render_rect)
 
         pygame.display.flip()  # flip all our drawn stuff onto the screen
