@@ -1,7 +1,0 @@
-name,Walnan Underfoe
-strength,11
-dexterity,16
-constitution,9
-wisdom,10
-intelligence,13
-charisma,18
